@@ -57,12 +57,18 @@ export default function About({ page }: IProps) {
   const reCompany = /ООО/giu;
   const reCompanyName = /Ангара/gi;
 
-  const newPage = string.replace(re, SITE_DOMAIN_FULL);
-  let newPage2 = newPage.replace(reCompany, '');
-  newPage2 = newPage2.replace(
-    reCompanyName,
-    COMPANY_INFORMATION.RECVIZITY.NAME
-  );
+  let domain = "https://partshub.ru"
+  if(SITE_DOMAIN_FULL){
+    domain = SITE_DOMAIN_FULL
+
+  }
+    const newPage = string.replace(re, domain);
+    let newPage2 = newPage.replace(reCompany, '');
+    newPage2 = newPage2.replace(
+      reCompanyName,
+      COMPANY_INFORMATION.RECVIZITY.NAME
+    );
+
 
   return (
     <React.Fragment>

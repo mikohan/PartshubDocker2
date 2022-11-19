@@ -1,12 +1,12 @@
-version: '3'
+version: '3.8'
 services:
   nextjs:
     build:
-      context: ./nextjs
+      context: ./next
     ports:
       - 3245:3245
     env_file:
-      - ./nextjs/.env.local
+      - ./next/.env.local
   nginx:
     build:
       context: ./nginx
