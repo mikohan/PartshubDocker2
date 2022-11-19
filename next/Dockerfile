@@ -3,6 +3,7 @@ FROM node:16-alpine AS build
 
 # RUN apk update && \
 #     apk add --no-cache libc6-compat autoconf automake libtool make tiff jpeg zlib zlib-dev pkgconf nasm file gcc musl-dev
+RUN apk add --no-cache libc6-compat
 
 RUN mkdir -p /app
 
@@ -13,13 +14,15 @@ COPY . .
 
 RUN yarn install
 RUN yarn build
-RUN rm -rf node_modules
+# RUN rm -rf node_modules
 
-RUN yarn install --production
+# RUN yarn install --production
 
 
 # Second part - Running
 FROM node:16-alpine
+
+RUN npm install --global pm2
 
 ENV NODE_ENV=production
 
@@ -32,10 +35,13 @@ COPY --from=build /app/package.json ./
 COPY --from=build /app/package-lock.json ./
 COPY --from=build /app/public ./public
 COPY --from=build /app/.next ./.next
+COPY --from=build /app/next.config.js ./next.config.js
 
 EXPOSE 3245
 
-CMD ["yarn", "start"]
+CMD ["pm2-runtime", "npm", "--", "start"]
+
+# CMD ["yarn", "start"]
 
 
 
@@ -69,5 +75,3 @@ CMD ["yarn", "start"]
 # RUN yarn install
 
 # CMD ["yarn", "dev"]
-# RUN npm install --global pm2
-# CMD ["pm2-runtime", "npm", "--", "start"]
