@@ -24,8 +24,6 @@ FROM node:16-alpine
 
 RUN npm install --global pm2
 
-ENV NODE_ENV=production
-
 RUN mkdir -p /app
 
 WORKDIR /app
