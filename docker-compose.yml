@@ -7,8 +7,14 @@ services:
       - 3245:3245
     env_file:
       - ./next/.env.local
+    networks:
+      - proxy
   nginx:
     build:
       context: ./nginx
     ports:
       - 8090:80
+networks:
+  proxy:
+    external:
+      name: quoradocker_elastic
